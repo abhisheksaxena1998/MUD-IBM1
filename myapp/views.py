@@ -274,7 +274,7 @@ def result(request):
                     url = data_tojson["ALEXA"]["SD"][1]["POPULARITY"]["URL"]
                     rank= int(data_tojson["ALEXA"]["SD"][1]["POPULARITY"]["TEXT"])
                     #print ("rank",rank)
-                    if rank<=100000:
+                    if rank<=200000:
                         thirt=1
                     else:
                         thirt=-1
