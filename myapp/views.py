@@ -779,7 +779,7 @@ def fetchanalysis(request):
     import numpy as np
     import datetime
 
-    df=pd.read_csv("static/dataset.csv",error_bad_lines=False)
+    df=pd.read_csv("static/dataset.csv",error_bad_lines=False,warn_bad_lines=False)
     l=0
     m=0
     for i in df['Status']:
@@ -831,8 +831,9 @@ def fetchanalysis(request):
     x=[]
     y=[]
     for i,j in (Counter(df['Organisation']).most_common(20)):
-        x.append(i[:15])
-        y.append(j)
+        if i not in ['REDACTED FOR PRIVACY','Not found in database','None']:
+            x.append(i[:15])
+            y.append(j)
     #print (x,y )
     import pandas as pd
     import numpy as np
@@ -845,28 +846,30 @@ def fetchanalysis(request):
     import matplotlib.pyplot as plt
 
     #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
-    fig, ax = plt.subplots(figsize=(15,16))
+    fig, ax = plt.subplots(figsize=(20,20))
 
     plt.bar(x, y,color='#0000ff')
-    plt.xlabel('Most occuring organisations in browsing history', fontsize=16)
-    plt.ylabel('Number of websites of corresponding organisation', fontsize=16)
-    plt.xticks(x, x, fontsize=10, rotation=90)
-    plt.title('URLs of various organisations browsed as detected from Chrome Extension',fontsize=16)
+    plt.xlabel('Most occuring organisations in browsing history', fontsize=32)
+    plt.ylabel('Number of websites of corresponding organisation', fontsize=32)
+    plt.xticks(x, x, fontsize=28, rotation=90)
+    plt.yticks(fontsize=28)
+    plt.title('URLs of various organisations browsed as detected from Chrome Extension',fontsize=32)
     #fig = plt.figure(1)
 
     ax = plt.gca()
-    ax.legend(prop={'size': 40})
-    legend = plt.legend()
+    #ax.legend(prop={'size': 40})
+    #legend = plt.legend()
     #plt.show()
 
-    fig.savefig(location2, dpi=80)
+    fig.savefig(location2, dpi=150,bbox_inches='tight')
 
     from collections import Counter
     x=[]
     y=[]
     for i,j in (Counter(df['Registrar']).most_common(20)):
-        x.append(i[:20])
-        y.append(j)
+        if i not in ['REDACTED FOR PRIVACY','Not found in database','None']:
+            x.append(i[:20])
+            y.append(j)
     #print (x,y )
     import pandas as pd
     import numpy as np
@@ -879,23 +882,24 @@ def fetchanalysis(request):
     import matplotlib.pyplot as plt
 
     #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
-    fig, ax = plt.subplots(figsize=(15,20))
+    fig, ax = plt.subplots(figsize=(20,20))
 
     plt.bar(x, y,color='yellow',edgecolor='black')
 
 
-    plt.xlabel('Most occuring registrars in browsing history', fontsize=16)
-    plt.ylabel('Number of websites of corresponding registrar', fontsize=16)
-    plt.xticks(x, x, fontsize=10, rotation=90)
-    plt.title('URLs of various registrars browsed as detected from Chrome Extension',fontsize=16)
+    plt.xlabel('Most occuring registrars in browsing history', fontsize=32)
+    plt.ylabel('Number of websites of corresponding registrar', fontsize=32)
+    plt.xticks(x, x, fontsize=28, rotation=90)
+    plt.yticks(fontsize=28)
+    plt.title('URLs of various registrars browsed as detected from Chrome Extension',fontsize=32)
     #fig = plt.figure(1)
 
     ax = plt.gca()
-    ax.legend(prop={'size': 40})
-    legend = plt.legend()
+    #ax.legend(prop={'size': 40})
+    #legend = plt.legend()
     #plt.show()
 
-    fig.savefig(location3, dpi=80)
+    fig.savefig(location3, dpi=150,bbox_inches='tight')
 
     from collections import Counter
     x=[]
@@ -915,23 +919,24 @@ def fetchanalysis(request):
     import matplotlib.pyplot as plt
 
     #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
-    fig, ax = plt.subplots(figsize=(15,16))
+    fig, ax = plt.subplots(figsize=(20,20))
 
     plt.bar(x, y,color='#0099ff',edgecolor='black')
 
 
-    plt.xlabel('Most occuring country in browsing history', fontsize=16)
-    plt.ylabel('Number of websites of corresponding country', fontsize=16)
-    plt.xticks(x, x, fontsize=10, rotation=90)
-    plt.title('URLs of various country browsed as detected from Chrome Extension',fontsize=16)
+    plt.xlabel('Most occuring country in browsing history', fontsize=32)
+    plt.ylabel('Number of websites of corresponding country', fontsize=32)
+    plt.xticks(x, x, fontsize=28, rotation=90)
+    plt.yticks(fontsize=28)
+    plt.title('URLs of various country browsed as detected from Chrome Extension',fontsize=32)
     #fig = plt.figure(1)
 
     ax = plt.gca()
-    ax.legend(prop={'size': 40})
-    legend = plt.legend()
+    #ax.legend(prop={'size': 40})
+    #legend = plt.legend()
     #plt.show()
 
-    fig.savefig(location4, dpi=80)
+    fig.savefig(location4, dpi=150,bbox_inches='tight')
 
     dmf=df[df['Status']=="Malicious"]
     from collections import Counter
@@ -952,23 +957,24 @@ def fetchanalysis(request):
     import matplotlib.pyplot as plt
 
     #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
-    fig, ax = plt.subplots(figsize=(15,16))
+    fig, ax = plt.subplots(figsize=(20,20))
 
     plt.bar(x, y,color='red',edgecolor='black')
 
 
-    plt.xlabel('Most occuring country in browsing history (Malicious Website)', fontsize=16)
-    plt.ylabel('Number of Malicious websites of corresponding country', fontsize=16)
-    plt.xticks(x, x, fontsize=10, rotation=90)
-    plt.title('Malicious URLs of various country browsed as detected from Chrome Extension',fontsize=16)
+    plt.xlabel('Most occuring country in browsing history (Malicious Website)', fontsize=32)
+    plt.ylabel('Number of Malicious websites of corresponding country', fontsize=32)
+    plt.xticks(x, x, fontsize=28, rotation=90)
+    plt.yticks(fontsize=28)
+    plt.title('Malicious URLs of various country browsed as detected from Chrome Extension',fontsize=32)
     #fig = plt.figure(1)
 
     ax = plt.gca()
-    ax.legend(prop={'size': 40})
-    legend = plt.legend()
+    #ax.legend(prop={'size': 40})
+    #legend = plt.legend()
     #plt.show()
 
-    fig.savefig(location5, dpi=80)
+    fig.savefig(location5, dpi=150,bbox_inches='tight')
 
     dlf=df[df['Status']=="Legitimate"]
     from collections import Counter
@@ -989,23 +995,24 @@ def fetchanalysis(request):
     import matplotlib.pyplot as plt
 
     #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
-    fig, ax = plt.subplots(figsize=(15,16))
+    fig, ax = plt.subplots(figsize=(20,20))
 
     plt.bar(x, y,color='#ccff33',edgecolor='black')
 
 
-    plt.xlabel('Most occuring country in browsing history (Legitimate Website)', fontsize=16)
-    plt.ylabel('Number of Legitimate websites of corresponding country', fontsize=16)
-    plt.xticks(x, x, fontsize=10, rotation=90)
-    plt.title('Legitimate URLs of various country browsed as detected from Chrome Extension',fontsize=16)
+    plt.xlabel('Most occuring country in browsing history (Legitimate Website)', fontsize=32)
+    plt.ylabel('Number of Legitimate websites of corresponding country', fontsize=32)
+    plt.xticks(x, x, fontsize=28, rotation=90)
+    plt.yticks(fontsize=28)
+    plt.title('Legitimate URLs of various country browsed as detected from Chrome Extension',fontsize=32)
     #fig = plt.figure(1)
 
     ax = plt.gca()
-    ax.legend(prop={'size': 40})
-    legend = plt.legend()
+    #ax.legend(prop={'size': 40})
+    #legend = plt.legend()
     #plt.show()
 
-    fig.savefig(location6, dpi=80)
+    fig.savefig(location6, dpi=150,bbox_inches='tight')
 
 
         
