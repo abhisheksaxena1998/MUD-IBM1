@@ -134,9 +134,10 @@ def result(request):
                     secval=1  
                 if "@" in text:
                     thirdval=-1
-                    var3="@detected"
+                    var3="'@' detected"
                 else:
                     thirdval=1       
+                    var3="No '@' detected"
                 k=text.count("//")          
                 if k>1:
                     fourthval=-1
@@ -148,7 +149,8 @@ def result(request):
                     fifthval=-1
                     var5="Prefix-Suffix detected"
                 else:
-                    fifthval=1         
+                    fifthval=1 
+                    var5="No Prefix-Suffix detected"        
                 if "https" in text:
                     sixthval=1
                 else:
@@ -175,6 +177,7 @@ def result(request):
                     var10="redirects more than 2"
                 else:
                     tenthval=1    
+                    var10=f"{re-1} redirects detected"
 
                 import whois
                 from datetime import datetime
@@ -246,10 +249,11 @@ def result(request):
                 if d>365:
                     eleventhval=1
                     aburl=1
+                    var11=f"Domain age is {d} days"
                 elif d<=365:
                     eleventhval=-1
                     aburl=-1
-                    var11="Domain age working less than a year"
+                    var11=f"Domain age working less than a year, {d} days"
         
      
 
@@ -257,8 +261,10 @@ def result(request):
 
                 if aburl==-1:
                     twelthval=-1
+                    varab="Abnormal URL detected"
                 else:
                     twelthval=1 
+                    varab="Website Registered on WHOIS Database"
 
                 #print (twelthval,eleventhval,aburl,d)    
                 import urllib.request, sys, re
@@ -278,12 +284,13 @@ def result(request):
                         thirt=1
                     else:
                         thirt=-1
-                        var13="Larger index in alexa database"
+                        var13=f"Ranked {rank} in Alexa Database, Larger index in alexa database detected!!"
                     #print (thirt)    
                 except:
                     thirt=-1 
                     rank=-1
-                    var13="Larger index in alexa database"
+                    ##############var13="Larger index in alexa database"
+                    var13="Not indexed in alexa database"
                     #print (rank)                  
 
 
