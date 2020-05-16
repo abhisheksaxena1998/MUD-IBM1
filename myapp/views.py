@@ -274,7 +274,7 @@ def result(request):
                     url = data_tojson["ALEXA"]["SD"][1]["POPULARITY"]["URL"]
                     rank= int(data_tojson["ALEXA"]["SD"][1]["POPULARITY"]["TEXT"])
                     #print ("rank",rank)
-                    if rank<=200000:
+                    if rank<=600000:
                         thirt=1
                     else:
                         thirt=-1
@@ -289,7 +289,7 @@ def result(request):
 
 
 
-                filename = 'phish_trainedv3.sav'
+                filename = 'phish_trainedv7mud0.001.sav'
 
                 loaded_model = joblib.load(filename)
 
@@ -621,7 +621,7 @@ def api(request):
                     url = data_tojson["ALEXA"]["SD"][1]["POPULARITY"]["URL"]
                     rank= int(data_tojson["ALEXA"]["SD"][1]["POPULARITY"]["TEXT"])
                     #print ("rank",rank)
-                    if rank<=100000:
+                    if rank<=600000:
                         thirt=1
                     else:
                         thirt=-1
@@ -634,7 +634,7 @@ def api(request):
 
 
 
-                filename = 'phish_trainedv3.sav'
+                filename = 'phish_trainedv7mud0.001.sav'
 
                 loaded_model = joblib.load(filename)
 
