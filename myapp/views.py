@@ -60,12 +60,12 @@ import datetime
 
 
 def result(request):
-    text=request.GET['url']
+    text=request.GET['url'].lower()
     try:
         #nm=request.GET['url']
     
         
-        if not text.startswith('http'):
+        if not text.startswith('http://') and not text.startswith('https://'):
             return render(request,"404.html")
         if text.startswith('https://malicious-url-detectorv5.herokuapp.com/') or text.startswith('https://mudv7.eu-gb.cf.appdomain.cloud/')  :
             return render(request,'result.html',{'result':'Real-time analysis successfull','f2':'Legtimate','mal': True,'text':text,'name':"The Legions",
@@ -255,7 +255,7 @@ def result(request):
                     aburl=-1
                     var11=f"Domain age working less than a year, {d} days"
         
-     
+        
 
 
 
@@ -362,11 +362,13 @@ def result(request):
                 final_entity = { "predicted_argument": [int(arg[0])]}
                 # directly called encode method of JSON
                 #print (JSONEncoder().encode(final_entity)) 
+                domage=str(d)+' '+'days'
+                redir=k-1
                 obj = Url()
                 obj.result = te 
                 #print (dom,rank)
                         
-                tags = [name,org,state,add,city,ziip,country,emails,dom,rank]
+                tags = [name,org,state,add,city,ziip,country,emails,dom,rank,domage,varab,redir,var3,var5]
 
                 tags = list(filter(lambda x: x!="Not Found",tags))
                 tags.append(text)
@@ -374,6 +376,7 @@ def result(request):
                 obj.add = add
                 obj.state = state
                 obj.city = city
+                
                 #obj.ziip = res['zip_code']
                 obj.country = country 
                 obj.emails = emails
@@ -381,6 +384,11 @@ def result(request):
                 obj.org = org
                 obj.rank = rank
                 obj.registrar=registrar
+                obj.domage=domage
+                obj.varab=varab
+                obj.redir=redir
+                obj.var3=var3
+                obj.var5=var5
                 obj.save()
 
                 #print (add)
@@ -443,10 +451,10 @@ def result(request):
                                 'dom':"NA",'rank':"NA","tags":"NA","registrar":"NA","var13":"NA","varab":"NA","var11":"NA","var10":"NA","var5":"NA","var4":"NA","var3":"NA"})
   
 
-
 def api(request):
+    text=request.GET['query'].lower()
     try:
-        text=request.GET['query']
+        
         import datetime
 
         if text.startswith('https://malicious-url-detectorv5.herokuapp.com/'): 
@@ -811,7 +819,7 @@ def fetchanalysis(request):
 
     sizes=[l,m]
 
-    colors = ['#00ff00','yellow']
+    colors = ['yellow','orange']
     explode = (0, 0)  # explode a slice if required
 
     plt.pie(sizes, explode=explode, labels=labels, colors=colors,
@@ -825,7 +833,7 @@ def fetchanalysis(request):
 
     # Set aspect ratio to be equal so that pie is drawn as a circle.
     plt.axis('equal')
-    fig.savefig(location1, dpi=150)
+    fig.savefig(location1, dpi=100)
 
     from collections import Counter
     x=[]
@@ -840,13 +848,13 @@ def fetchanalysis(request):
     import seaborn as sns
     import matplotlib.pyplot as plt
 
-    sns.set_style("darkgrid", {"axes.facecolor": ".0"})
+    sns.set_style("whitegrid", {"axes.facecolor": ".2"})
 
     from matplotlib.pyplot import figure
     import matplotlib.pyplot as plt
 
     #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
-    fig, ax = plt.subplots(figsize=(20,20))
+    fig, ax = plt.subplots(figsize=(20,20), facecolor='w', edgecolor='k')
 
     plt.bar(x, y,color='#0000ff')
     plt.xlabel('Most occuring organisations in browsing history', fontsize=32)
@@ -861,7 +869,7 @@ def fetchanalysis(request):
     #legend = plt.legend()
     #plt.show()
 
-    fig.savefig(location2, dpi=150,bbox_inches='tight')
+    fig.savefig(location2, dpi=80,bbox_inches='tight')
 
     from collections import Counter
     x=[]
@@ -876,7 +884,7 @@ def fetchanalysis(request):
     import seaborn as sns
     import matplotlib.pyplot as plt
 
-    sns.set_style("darkgrid", {"axes.facecolor": ".0"})
+    sns.set_style("darkgrid", {"axes.facecolor": ".2"})
 
     from matplotlib.pyplot import figure
     import matplotlib.pyplot as plt
@@ -899,7 +907,7 @@ def fetchanalysis(request):
     #legend = plt.legend()
     #plt.show()
 
-    fig.savefig(location3, dpi=150,bbox_inches='tight')
+    fig.savefig(location3, dpi=80,bbox_inches='tight')
 
     from collections import Counter
     x=[]
@@ -913,7 +921,7 @@ def fetchanalysis(request):
     import seaborn as sns
     import matplotlib.pyplot as plt
 
-    sns.set_style("darkgrid", {"axes.facecolor": ".0"})
+    sns.set_style("darkgrid", {"axes.facecolor": ".2"})
 
     from matplotlib.pyplot import figure
     import matplotlib.pyplot as plt
@@ -936,7 +944,7 @@ def fetchanalysis(request):
     #legend = plt.legend()
     #plt.show()
 
-    fig.savefig(location4, dpi=150,bbox_inches='tight')
+    fig.savefig(location4, dpi=80,bbox_inches='tight')
 
     dmf=df[df['Status']=="Malicious"]
     from collections import Counter
@@ -951,7 +959,7 @@ def fetchanalysis(request):
     import seaborn as sns
     import matplotlib.pyplot as plt
 
-    sns.set_style("darkgrid", {"axes.facecolor": ".0"})
+    sns.set_style("darkgrid", {"axes.facecolor": ".2"})
 
     from matplotlib.pyplot import figure
     import matplotlib.pyplot as plt
@@ -974,7 +982,7 @@ def fetchanalysis(request):
     #legend = plt.legend()
     #plt.show()
 
-    fig.savefig(location5, dpi=150,bbox_inches='tight')
+    fig.savefig(location5, dpi=80,bbox_inches='tight')
 
     dlf=df[df['Status']=="Legitimate"]
     from collections import Counter
@@ -989,7 +997,7 @@ def fetchanalysis(request):
     import seaborn as sns
     import matplotlib.pyplot as plt
 
-    sns.set_style("darkgrid", {"axes.facecolor": ".0"})
+    sns.set_style("darkgrid", {"axes.facecolor": ".2"})
 
     from matplotlib.pyplot import figure
     import matplotlib.pyplot as plt
@@ -1012,7 +1020,7 @@ def fetchanalysis(request):
     #legend = plt.legend()
     #plt.show()
 
-    fig.savefig(location6, dpi=150,bbox_inches='tight')
+    fig.savefig(location6, dpi=80,bbox_inches='tight')
 
 
         
