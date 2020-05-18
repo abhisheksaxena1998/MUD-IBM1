@@ -27,6 +27,12 @@ class Url(models.Model):
     redir = models.IntegerField(null=True,default=0,blank=True)
     var3 = models.CharField(max_length=100,null=True,default="Not Found")
     var5 = models.CharField(max_length=100,null=True,default="Not Found")
+    ipadd = models.CharField(max_length=100,null=True,default="Not Found")
+    ipcity = models.CharField(max_length=100,null=True,default="Not Found")
+    ipstate = models.CharField(max_length=100,null=True,default="Not Found")
+    ipcountry = models.CharField(max_length=100,null=True,default="Not Found")
+    iplatitude = models.CharField(max_length=100,null=True,default="Not Found")
+    iplongitude = models.CharField(max_length=100,null=True,default="Not Found")
     #rank = models.CharField(max_length=100,null=True,default="N A",blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -54,7 +54,8 @@ from django.http import HttpResponse
 from django.shortcuts import render
 import os
 import pickle
-
+import socket
+import geocoder
 import whois
 import datetime
 
@@ -214,6 +215,7 @@ def result(request):
                 d=-1
                 try:
                     res=whois.whois(url)
+                    cpyres=res
                 except:
                     print("getaddrerrror DNE")
                     d=0
@@ -295,7 +297,6 @@ def result(request):
 
 
 
-
                 filename = 'phish_trainedv7mud0.001.sav'
 
                 loaded_model = joblib.load(filename)
@@ -364,6 +365,54 @@ def result(request):
                 #print (JSONEncoder().encode(final_entity)) 
                 domage=str(d)+' '+'days'
                 redir=k-1
+
+                if isinstance(cpyres.domain_name,str)==True:
+                    d=cpyres.domain_name
+                elif isinstance(cpyres.domain_name,list)==True:
+                    d=cpyres.domain_name[0]   
+
+
+                print (d)
+                try:
+                    ip=socket.gethostbyname_ex(d)
+                    ipadd=(ip[2][0])
+                    
+                    g=geocoder.ip(ipadd)
+                    ipcity=g.city
+                    
+                    ipstate=g.state
+                    
+                    ipcountry=g.country
+                
+                    iplatitude=g.latlng[0]
+                    
+                    iplongitude=g.latlng[1]
+                    
+                except:
+                    ipadd="Not Found"
+                    #print (ipadd)
+                    
+                    ipcity="Not Found"
+                    #print (city)
+                    ipstate="Not Found"
+                    #print (state)
+                    ipcountry="Not Found"
+                    #print (country)
+                    iplatitude="Not Found"
+                    #print (g.latlng)
+                    iplongitude="Not Found"
+                    #print (latitude)
+                    #print (longitude)
+                print (ipadd)
+                print (ipcity)
+                print (ipstate)
+                print (ipcountry)
+                print (iplatitude)
+                print (iplongitude)
+
+
+
+
                 obj = Url()
                 obj.result = te 
                 #print (dom,rank)
@@ -389,6 +438,13 @@ def result(request):
                 obj.redir=redir
                 obj.var3=var3
                 obj.var5=var5
+                obj.ipadd=ipadd
+                obj.ipcity=ipcity
+                obj.ipstate=ipstate
+                obj.ipcountry=ipcountry
+                obj.iplatitude=iplatitude
+                obj.iplongitude=iplongitude
+
                 obj.save()
 
                 #print (add)
@@ -406,6 +462,7 @@ def result(request):
                 if org!=None:    
                     org=org.replace(",","")
                 #print (org)
+                print (dom)
                 dom="".join(dom)
                 #print (dom)
                 if registrar:
@@ -413,7 +470,7 @@ def result(request):
                 #print (registrar)
                 #print (emails)
                 #print(city)
-
+                
                 import csv
                 with open ('static//dataset.csv','a',encoding="utf-8") as res:        
                     writer=csv.writer(res)           
@@ -434,7 +491,7 @@ def result(request):
                         'state':state,
                         'ziip':ziip,
                         'country':country,'emails':emails,
-                        'dom':dom,'rank':rank,'registrar':registrar,"tags":tags,"var13":var13,"varab":varab,"var11":var11,"var10":var10,"var5":var5,"var4":var4,"var3":var3})
+                        'dom':d,'rank':rank,'registrar':registrar,"tags":tags,"var13":var13,"varab":varab,"var11":var11,"var10":var10,"var5":var5,"var4":var4,"var3":var3,"ipadd":ipadd,'ipcity':ipcity,'ipstate':ipstate,'ipcountry':ipcountry,'iplatitude':iplatitude,'iplongitude':iplongitude})
 
 
 
@@ -448,7 +505,7 @@ def result(request):
                                 'state':"NA",
                                 'ziip':"NA",
                                 'country':"NA",'emails':"NA",
-                                'dom':"NA",'rank':"NA","tags":"NA","registrar":"NA","var13":"NA","varab":"NA","var11":"NA","var10":"NA","var5":"NA","var4":"NA","var3":"NA"})
+                                'dom':"NA",'rank':"NA","tags":"NA","registrar":"NA","var13":"NA","varab":"NA","var11":"NA","var10":"NA","var5":"NA","var4":"NA","var3":"NA","ipadd":"NA",'ipcity':"NA",'ipstate':'NA','ipcountry':'NA','iplatitude':'NA','iplongitude':'NA'})
   
 
 def api(request):
