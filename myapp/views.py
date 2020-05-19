@@ -470,18 +470,18 @@ def result(request):
                 #print (registrar)
                 #print (emails)
                 #print(city)
-                
+                import datetime
                 import csv
                 with open ('static//dataset.csv','a',encoding="utf-8") as res:        
                     writer=csv.writer(res)           
-                    s="{},{},{},{},{},{},{},{},{},{},{},{},{}\n".format(text,te,(name),
-                        org,
-                        add,
-                        city,
-                        state,
-                        ziip,
-                        country,emails,
-                        str(dom),rank,str(registrar))
+                    s="{},{},{},{},{},{},{},{},{},{},{},{},{},{}\n".format(text,te,str(name),
+                        str(org).replace(",",''),
+                        str(add).replace(",",''),
+                        str(city).replace(",",''),
+                        str(state).replace(",",''),
+                        str(ziip).replace(",",''),
+                        str(country).replace(",",''),str(emails).replace(",",''),
+                        str(dom).replace(",",''),rank,str(registrar).replace(",",''),str(datetime.datetime.now()))
                     res.write(s)      
             
                 return render(request,'result.html',{'result':'Real-time analysis successfull','f2':te,'mal': mal,'text':text,'name':name,
