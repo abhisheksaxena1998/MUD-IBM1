@@ -446,7 +446,9 @@ def result(request):
                 obj.iplongitude=iplongitude
 
                 obj.save()
-
+                nm=name
+                oor=org
+                em=emails
                 #print (add)
                 if add!=None:
                     if add and len (add)==1:
@@ -484,13 +486,13 @@ def result(request):
                         str(dom).replace(",",''),rank,str(registrar).replace(",",''),str(datetime.datetime.now()))
                     res.write(s)      
             
-                return render(request,'result.html',{'result':'Real-time analysis successfull','f2':te,'mal': mal,'text':text,'name':name,
-                        'org':org,
+                return render(request,'result.html',{'result':'Real-time analysis successfull','f2':te,'mal': mal,'text':text,'name':nm,
+                        'org':oor,
                         'add':add,
                         'city':city,
                         'state':state,
                         'ziip':ziip,
-                        'country':country,'emails':emails,
+                        'country':country,'emails':em,
                         'dom':d,'rank':rank,'registrar':registrar,"tags":tags,"var13":var13,"varab":varab,"var11":var11,"var10":var10,"var5":var5,"var4":var4,"var3":var3,"ipadd":ipadd,'ipcity':ipcity,'ipstate':ipstate,'ipcountry':ipcountry,'iplatitude':iplatitude,'iplongitude':iplongitude})
 
 
