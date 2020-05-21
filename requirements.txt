@@ -22,6 +22,7 @@ requests>=2.22.0
 six>=1.14.0
 sklearn>=0.0
 sqlparse>=0.3.0
+tldextract>=2.2.2
 urllib3>=1.25.8
 whitenoise>=5.0.1
 xmltodict>=0.12.0
