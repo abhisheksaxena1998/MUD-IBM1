@@ -855,6 +855,7 @@ def fetchanalysis(request):
     import datetime
 
     df=pd.read_csv("static/dataset.csv",error_bad_lines=False,warn_bad_lines=False)
+    df=df.dropna()
     l=0
     m=0
     for i in df['Status']:
@@ -906,8 +907,8 @@ def fetchanalysis(request):
     x=[]
     y=[]
     for i,j in (Counter(df['Organisation']).most_common(20)):
-        if i not in ['REDACTED FOR PRIVACY','Not found in database','None']:
-            x.append(i[:15])
+        if i not in ['REDACTED FOR PRIVACY','Not found in database','None','N/A']:
+            x.append((i[:15]))
             y.append(j)
     #print (x,y )
     import pandas as pd
