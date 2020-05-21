@@ -64,11 +64,14 @@ def result(request):
     text=request.GET['url'].lower()
     try:
         #nm=request.GET['url']
-    
+        import tldextract
+        do=tldextract.extract(text).domain
+        sdo=tldextract.extract(text).subdomain
+        suf=tldextract.extract(text).suffix
         
         if not text.startswith('http://') and not text.startswith('https://'):
             return render(request,"404.html")
-        if text.startswith('https://malicious-url-detectorv5.herokuapp.com/') or text.startswith('https://mudv7.eu-gb.cf.appdomain.cloud/')  :
+        if text.startswith('https://malicious-url-detectorv5.herokuapp.com/') or text.startswith('https://mudv9.eu-gb.cf.appdomain.cloud/')  :
             return render(request,'result.html',{'result':'Real-time analysis successfull','f2':'Legtimate','mal': True,'text':text,'name':"The Legions",
                         'org':"The Legions",
                         'add':"New Delhi",
@@ -146,12 +149,13 @@ def result(request):
                 else:
                     fourthval=1
                     
-                if "-" in text:
+                if "-" in do or "-" in sdo:
                     fifthval=-1
                     var5="Prefix-Suffix detected"
                 else:
                     fifthval=1 
-                    var5="No Prefix-Suffix detected"        
+                    var5="No Prefix-Suffix detected"     
+
                 if "https" in text:
                     sixthval=1
                 else:
@@ -282,7 +286,7 @@ def result(request):
                     url = data_tojson["ALEXA"]["SD"][1]["POPULARITY"]["URL"]
                     rank= int(data_tojson["ALEXA"]["SD"][1]["POPULARITY"]["TEXT"])
                     #print ("rank",rank)
-                    if rank<=600000:
+                    if rank<=150000:
                         thirt=1
                     else:
                         thirt=-1
@@ -528,7 +532,7 @@ def api(request):
             
 
         
-        elif text.startswith('https://mudv7.eu-gb.cf.appdomain.cloud/'):
+        elif text.startswith('https://mudv9.eu-gb.cf.appdomain.cloud/'):
             import datetime
             mydict = {
                 "query" : text,
@@ -574,6 +578,10 @@ def api(request):
         else:
         
             if text.startswith('https://') or text.startswith('http://'):
+                import tldextract
+                do=tldextract.extract(text).domain
+                sdo=tldextract.extract(text).subdomain
+                suf=tldextract.extract(text).suffix
 
                 if len(text)<=9:
                     return render(request,'errorpage.html')
@@ -597,7 +605,7 @@ def api(request):
                 else:
                     fourthval=1
                     
-                if "-" in text:
+                if "-" in do or "-" in sdo:
                     fifthval=-1
                 else:
                     fifthval=1         
@@ -695,7 +703,7 @@ def api(request):
                     url = data_tojson["ALEXA"]["SD"][1]["POPULARITY"]["URL"]
                     rank= int(data_tojson["ALEXA"]["SD"][1]["POPULARITY"]["TEXT"])
                     #print ("rank",rank)
-                    if rank<=600000:
+                    if rank<=150000:
                         thirt=1
                     else:
                         thirt=-1
