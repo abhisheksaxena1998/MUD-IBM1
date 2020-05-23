@@ -877,6 +877,8 @@ def fetchanalysis(request):
     loc5="/static/"+unique+"5"+".png"
     location6="static/"+unique+"6"+".png"
     loc6="/static/"+unique+"6"+".png"
+    location7="static/"+unique+"7"+".png"
+    loc7="/static/"+unique+"7"+".png"
     #print (location1,location2)
 
     #print (loc1,location1)
@@ -1089,9 +1091,37 @@ def fetchanalysis(request):
     #plt.show()
 
     fig.savefig(location6, dpi=80,bbox_inches='tight')
+    from collections import Counter
+    hours=[]
+    for i in df['Time']:
+        hours.append(i[11:13])
+        #print (i[11:13])
+    
+    di=dict(Counter(hours))
+    di=sorted(di.items())
+    
+
+    x=[]
+    y=[]
+    x, y = zip(*di)
+    fig, ax = plt.subplots(figsize=(20,20))
+
+    plt.plot(x, y,color='violet', marker='o', linestyle='dashed',linewidth=5, markersize=20,label="Number of URLs browsed")#
+
+    #plt.yticks([50,100,150,200,250,300,350,400,450,500])
+    plt.xlabel('Hours in a day',fontsize=32)
+    plt.ylabel('Number of URLs browsed',fontsize=32)
+    plt.xticks(fontsize=28)
+    plt.yticks(fontsize=28)
+    plt.title("Variation in number of URLs browsed and Hours",fontsize=32)
+    ax = plt.gca()
+    #ax.legend(prop={'size': 20})
+
+    #ax.tick_params(axis = 'both', which = 'major', labelsize = 15)  
+    fig.savefig(location7, dpi=80,bbox_inches='tight')
 
 
-        
+            
 
 
 
@@ -1099,7 +1129,7 @@ def fetchanalysis(request):
 
 
 
-    return render(request, 'fetchanalysis.html',{'f2':loc1,'f3':loc2,'f4':loc3,'f5':loc4,'f6':loc5,'f7':loc6})
+    return render(request, 'fetchanalysis.html',{'f2':loc1,'f3':loc2,'f4':loc3,'f5':loc4,'f6':loc5,'f7':loc6,'f8':loc7})
     
 
         
