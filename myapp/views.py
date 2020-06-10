@@ -61,7 +61,7 @@ import datetime
 
 
 def result(request):
-    text=request.GET['url'].lower()
+    text=request.GET['url'].lower().strip()
     try:
         #nm=request.GET['url']
         import tldextract
@@ -71,49 +71,8 @@ def result(request):
         
         if not text.startswith('http://') and not text.startswith('https://'):
             return render(request,"404.html")
-        if text.startswith('https://malicious-url-detectorv5.herokuapp.com/') or text.startswith('https://mudv9.eu-gb.cf.appdomain.cloud/')  :
-            return render(request,'result.html',{'result':'Real-time analysis successfull','f2':'Legtimate','mal': True,'text':text,'name':"The Legions",
-                        'org':"The Legions",
-                        'add':"New Delhi",
-                        'city':"New Delhi",
-                        'state':"New Delhi",
-                        'ziip':"201301",
-                        'country':"India",'emails':"thelegions@gmail.com",
-                        'dom':"Hidden For Privacy",'rank':"Hidden For Privacy","tags":"Hidden For Privacy","registrar":"Hidden For Privacy","var13":"NA","varab":"NA","var11":"NA","var10":"NA","var5":"NA","var4":"NA","var3":"NA"})
-
-        elif text.startswith('https://www.youtube.com/results?'):
-                        return render(request,'result.html',{'result':'Real-time analysis successfull','f2':'Legtimate','mal': True,'text':text,'name':"NA for youtube search results",
-                                'org':"NA for youtube search results",
-                                'add':"NA for youtube search results",
-                                'city':"NA for youtube search results",
-                                'state':"NA for youtube search results",
-                                'ziip':"NA for youtube search results",
-                                'country':"NA for youtube search results",'emails':"NA for youtube search results",
-                                'dom':"NA for youtube search results",'rank':"NA for youtube search results","tags":"NA for youtube search results","registrar":"NA for youtube search results","var13":"NA for youtube search results","varab":"NA for youtube search results","var11":"NA for youtube search results","var10":"NA for youtube search results","var5":"NA for youtube search results","var4":"NA for youtube search results","var3":"NA for youtube search results"})
-
-
-        elif text.startswith('https://www.google.com/search?q='):
-                return render(request,'result.html',{'result':'Real-time analysis successfull','f2':'Legtimate','mal': True,'text':text,'name':"NA for google search",
-                        'org':"NA for google search",
-                        'add':"NA for google search",
-                        'city':"NA for google search",
-                        'state':"NA for google search",
-                        'ziip':"NA for google search",
-                        'country':"NA for google search",'emails':"NA for google search",
-                        'dom':"NA for google search",'rank':"NA for google search","tags":"NA for google search","registrar":"Hidden For Privacy","var13":"NA for google search","varab":"NA for google search","var11":"NA for google search","var10":"NA for google search","var5":"NA for google search","var4":"NA for google search","var3":"NA for google search"})
-
-
-        elif text.startswith('https://www.youtube.com/watch?v='):
-            return render(request,'result.html',{'result':'Real-time analysis successfull','f2':'Legtimate','mal': True,'text':text,'name':"NA for Youtube search",
-                        'org':"NA for Youtube search",
-                        'add':"NA for Youtube search",
-                        'city':"NA for Youtube search",
-                        'state':"NA for Youtube search",
-                        'ziip':"NA for Youtube search",
-                        'country':"NA for Youtube search",'emails':"NA for Youtube search",
-                        'dom':"NA for Youtube search",'rank':"NA for Youtube search","tags":"NA for Youtube search","registrar":"Hidden For Privacy","var13":"NA for Youtube search","varab":"NA for Youtube search","var11":"NA for Youtube search","var10":"NA for Youtube search","var5":"NA for Youtube search","var4":"NA for Youtube search","var3":"NA for Youtube search"})
-
-        elif (text.startswith('https://www.google.com/search?q=')==False ):
+        
+        if (text.startswith('https://www.google.com/search?q=')==False ):
 
             if text.startswith('https://') or text.startswith('http://'):
                 var13="Not Applicable"
@@ -188,31 +147,6 @@ def result(request):
                 from datetime import datetime
 
                 url=text
-
-
-                """
-                try:
-                    res=whois.whois(url)
-                    try:
-                        a=res['creation_date'][0]
-                        b=datetime.now()
-                        c=b-a
-                        d=c.days
-                    except:
-                        a=res['creation_date']
-                        b=datetime.now()
-                        c=b-a
-                        d=c.days
-                    if d>365:
-                        eleventhval=1
-                    else:
-                        eleventhval=-1
-                        var11="Domain age working less than a year"
-                except:
-                    aburl=-1
-                    varab="abnormal url"
-                    eleventhval=-1   
-                """
                 #code replaced whois
                 # 
                 """try:"""
@@ -347,7 +281,7 @@ def result(request):
                 
                     
 
-                if dom=="Not Found" and rank==-1 :
+                if aburl==-1 and rank==-1 :
                     arg[0]=-1
                     #phishing
 
@@ -376,7 +310,7 @@ def result(request):
                     d=cpyres.domain_name[0]   
 
 
-                print (d)
+                #print (d)
                 try:
                     ip=socket.gethostbyname_ex(d)
                     ipadd=(ip[2][0])
@@ -407,13 +341,13 @@ def result(request):
                     iplongitude="Not Found"
                     #print (latitude)
                     #print (longitude)
-                print (ipadd)
+                '''print (ipadd)
                 print (ipcity)
                 print (ipstate)
                 print (ipcountry)
                 print (iplatitude)
                 print (iplongitude)
-
+'''
 
 
 
@@ -468,7 +402,7 @@ def result(request):
                 if org!=None:    
                     org=org.replace(",","")
                 #print (org)
-                print (dom)
+                '''print (dom)'''
                 dom="".join(dom)
                 #print (dom)
                 if registrar:
@@ -504,65 +438,25 @@ def result(request):
         else:
             return render(request,'404.html')  
     except:
-        return render(request,'result.html',{'result':'Real-time analysis successfull','f2':'Legtimate','mal': True,'text':text,'name':"NA",
+        return render(request,'404.html')  
+        #website DNE or feature extraction cannot be completed
+        '''return render(request,'result.html',{'result':'Real-time analysis successfull','f2':'Legtimate','mal': True,'text':text,'name':"NA",
                                 'org':"NA",
                                 'add':"NA",
                                 'city':"NA",
                                 'state':"NA",
                                 'ziip':"NA",
                                 'country':"NA",'emails':"NA",
-                                'dom':"NA",'rank':"NA","tags":"NA","registrar":"NA","var13":"NA","varab":"NA","var11":"NA","var10":"NA","var5":"NA","var4":"NA","var3":"NA","ipadd":"NA",'ipcity':"NA",'ipstate':'NA','ipcountry':'NA','iplatitude':'NA','iplongitude':'NA'})
+                                'dom':"NA",'rank':"NA","tags":"NA","registrar":"NA","var13":"NA","varab":"NA","var11":"NA","var10":"NA","var5":"NA","var4":"NA","var3":"NA","ipadd":"NA",'ipcity':"NA",'ipstate':'NA','ipcountry':'NA','iplatitude':'NA','iplongitude':'NA'})'''
   
 
 def api(request):
-    text=request.GET['query'].lower()
+    text=request.GET['query'].lower().strip()
     try:
         
         import datetime
 
-        if text.startswith('https://malicious-url-detectorv5.herokuapp.com/'): 
-            import datetime
-            mydict = {
-                "query" : text,
-                "malware" : False,
-                "datetime" : str(datetime.datetime.now())
-            }
-            response = JsonResponse(mydict)
-            return response  
-            
-
-        
-        elif text.startswith('https://mudv9.eu-gb.cf.appdomain.cloud/'):
-            import datetime
-            mydict = {
-                "query" : text,
-                "malware" : False,
-                "datetime" : str(datetime.datetime.now())
-            }
-            response = JsonResponse(mydict)
-            return response
-
-        elif text.startswith('https://www.youtube.com/results?'):
-            import datetime
-            mydict = {
-                "query" : text,
-                "malware" : False,
-                "datetime" : str(datetime.datetime.now())
-            }
-            response = JsonResponse(mydict)
-            return response
-
-        elif text.startswith('https://www.youtube.com/'):
-            import datetime
-            mydict = {
-                "query" : text,
-                "malware" : False,
-                "datetime" : str(datetime.datetime.now())
-            }
-            response = JsonResponse(mydict)
-            return response  
-
-        elif text.startswith('https://www.google.com/search?q='):
+        if text.startswith('https://www.google.com/search?q='):
             import datetime
             mydict = {
                 "query" : text,
@@ -692,7 +586,7 @@ def api(request):
                     twelthval=1                 
                 import urllib.request, sys, re
                 import xmltodict, json
-
+                rank=-1
                 try:
                     xml = urllib.request.urlopen('http://data.alexa.com/data?cli=10&dat=s&url={}'.format(text)).read()
 
@@ -710,7 +604,8 @@ def api(request):
                     #print (thirt)    
                 except:
                     thirt=-1 
-                    rank="Not Indexed by Alexa"
+                    rank=-1
+                    #rank="Not Indexed by Alexa"
                     #print (rank)                  
 
 
@@ -759,7 +654,7 @@ def api(request):
                 
                     
 
-                if dom=="Not Found" and rank==-1 :
+                if aburl==-1 and rank==-1 :
                     arg[0]=-1
                     #phishing
 
@@ -773,54 +668,12 @@ def api(request):
                     mal = False      
 
 
-                if dom=="Not Found" and rank=="Not Indexed by Alexa" :
-                    arg[0]=-1
-                    #phishing
-
-                if arg[0]==1:
-                    te="Legitimate"
-                else:
-                    te="Malicious"  
-                if arg[0] == 1:
-                    mal = True
-                else:
-                    mal = False      
                 if arg[0] == 1:
                     malstatus = False
                 else:
                     malstatus = True                 
                 from json.encoder import JSONEncoder
                 final_entity = { "predicted_argument": [int(arg[0])]}
-                # directly called encode method of JSON
-                #print (JSONEncoder().encode(final_entity)) 
-                
-                #print (dom,rank)
-                        
-                """res=whois.whois(url)
-                obj = Url()
-                obj.link=res["name"]
-                print (res["name"])
-                obj.org=res['org']
-                print (res['org'])
-                obj.add=res['address']
-                print (res['address'])
-                obj.city=res['city']
-                print (res['city'])
-                obj.state=res['state']
-                print (res['state'])
-                print (res['zipcode'])
-                obj.country=res['country']
-                print (res['country'])
-                obj.emails=res["emails"][0]   
-                print (res["emails"][0])
-                obj.dom=res['domain_name']
-                print (res['domain_name'])
-                obj.rank = rank
-                obj.save()
-    """
-            '''return render(request, 'result.html',
-                    {'result': 'Real-time analysis successfull',
-                    'f2': te, 'mal': mal,'text':text})'''
 
             import datetime
             mydict = {
@@ -848,289 +701,382 @@ def api(request):
 
 
 def fetchanalysis(request):
-    import warnings
-    warnings.simplefilter(action='ignore', category=FutureWarning)
-    import pandas as pd
-    import numpy as np
-    import datetime
-
-    df=pd.read_csv("static/dataset.csv",error_bad_lines=False,warn_bad_lines=False)
-    df=df.dropna()
-    l=0
-    m=0
-    for i in df['Status']:
-        if i=="Legitimate":
-            l+=1
-        elif i=="Malicious":
-            m+=1
-    unique=str(datetime.datetime.now().strftime("%Y-%m-%d-%H%M%S") )
-
-    location1="static/"+unique+".png"
-    loc1="/static/"+unique+".png"
-    location2="static/"+unique+"2"+".png"
-    loc2="/static/"+unique+"2"+".png"
-    location3="static/"+unique+"3"+".png"
-    loc3="/static/"+unique+"3"+".png"
-    location4="static/"+unique+"4"+".png"
-    loc4="/static/"+unique+"4"+".png"
-    location5="static/"+unique+"5"+".png"
-    loc5="/static/"+unique+"5"+".png"
-    location6="static/"+unique+"6"+".png"
-    loc6="/static/"+unique+"6"+".png"
-    location7="static/"+unique+"7"+".png"
-    loc7="/static/"+unique+"7"+".png"
-    #print (location1,location2)
-
-    #print (loc1,location1)
-    import matplotlib.pyplot as plt
-    fig, ax = plt.subplots(figsize=(5, 4), dpi=100,subplot_kw=dict(aspect="equal"))
-
-    labels=['Legitimate','Malicious']
-
-    sizes=[l,m]
-
-    colors = ['yellow','orange']
-    explode = (0, 0)  # explode a slice if required
-
-    plt.pie(sizes, explode=explode, labels=labels, colors=colors,
-            autopct='%1.1f%%', shadow=True)
-            
-    #draw a circle at the center of pie to make it look like a donut
-    centre_circle = plt.Circle((0,0),0.50,color='black', fc='white',linewidth=1.25)
-    fig = plt.gcf()
-    fig.gca().add_artist(centre_circle)
-
-
-    # Set aspect ratio to be equal so that pie is drawn as a circle.
-    plt.axis('equal')
-    fig.savefig(location1, dpi=100)
-
-    from collections import Counter
-    x=[]
-    y=[]
-    for i,j in (Counter(df['Organisation']).most_common(20)):
-        if i not in ['REDACTED FOR PRIVACY','Not found in database','None','N/A']:
-            x.append((i[:15]))
-            y.append(j)
-    #print (x,y )
-    import pandas as pd
-    import numpy as np
-    import seaborn as sns
-    import matplotlib.pyplot as plt
-
-    sns.set_style("whitegrid", {"axes.facecolor": ".2"})
-
-    from matplotlib.pyplot import figure
-    import matplotlib.pyplot as plt
-
-    #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
-    fig, ax = plt.subplots(figsize=(20,20), facecolor='w', edgecolor='k')
-
-    plt.bar(x, y,color='#0000ff')
-    plt.xlabel('Most occuring organisations in browsing history', fontsize=32)
-    plt.ylabel('Number of websites of corresponding organisation', fontsize=32)
-    plt.xticks(x, x, fontsize=28, rotation=90)
-    plt.yticks(fontsize=28)
-    plt.title('URLs of various organisations browsed as detected from Chrome Extension',fontsize=32)
-    #fig = plt.figure(1)
-
-    ax = plt.gca()
-    #ax.legend(prop={'size': 40})
-    #legend = plt.legend()
-    #plt.show()
-
-    fig.savefig(location2, dpi=80,bbox_inches='tight')
-
-    from collections import Counter
-    x=[]
-    y=[]
-    for i,j in (Counter(df['Registrar']).most_common(20)):
-        if i not in ['REDACTED FOR PRIVACY','Not found in database','None']:
-            x.append(i[:20])
-            y.append(j)
-    #print (x,y )
-    import pandas as pd
-    import numpy as np
-    import seaborn as sns
-    import matplotlib.pyplot as plt
-
-    sns.set_style("darkgrid", {"axes.facecolor": ".2"})
+    try:
+
+        import warnings
+        warnings.simplefilter(action='ignore', category=FutureWarning)
+        import pandas as pd
+        import numpy as np
+        import datetime
+
+        df=pd.read_csv("static/dataset.csv",error_bad_lines=False,warn_bad_lines=False)
+        df=df.dropna()
+        l=0
+        m=0
+        for i in df['Status']:
+            if i=="Legitimate":
+                l+=1
+            elif i=="Malicious":
+                m+=1
+        unique=str(datetime.datetime.now().strftime("%Y-%m-%d-%H%M%S") )
+
+        location1="static/"+unique+".png"
+        loc1="/static/"+unique+".png"
+        location2="static/"+unique+"2"+".png"
+        loc2="/static/"+unique+"2"+".png"
+        location3="static/"+unique+"3"+".png"
+        loc3="/static/"+unique+"3"+".png"
+        location4="static/"+unique+"4"+".png"
+        loc4="/static/"+unique+"4"+".png"
+        location5="static/"+unique+"5"+".png"
+        loc5="/static/"+unique+"5"+".png"
+        location6="static/"+unique+"6"+".png"
+        loc6="/static/"+unique+"6"+".png"
+        location7="static/"+unique+"7"+".png"
+        loc7="/static/"+unique+"7"+".png"
+        location8="static/"+unique+"8"+".png"
+        loc8="/static/"+unique+"8"+".png"
+        location9="static/"+unique+"9"+".png"
+        loc9="/static/"+unique+"9"+".png"
+        #print (location1,location2)
+
+        #print (loc1,location1)
+        import matplotlib.pyplot as plt
+        fig, ax = plt.subplots(figsize=(5, 4), dpi=100,subplot_kw=dict(aspect="equal"))
+
+        labels=['Legitimate','Malicious']
+
+        sizes=[l,m]
+
+        colors = ['yellow','orange']
+        explode = (0, 0)  # explode a slice if required
+
+        plt.pie(sizes, explode=explode, labels=labels, colors=colors,
+                autopct='%1.1f%%', shadow=True)
+                
+        #draw a circle at the center of pie to make it look like a donut
+        centre_circle = plt.Circle((0,0),0.50,color='black', fc='white',linewidth=1.25)
+        fig = plt.gcf()
+        fig.gca().add_artist(centre_circle)
+
+
+        # Set aspect ratio to be equal so that pie is drawn as a circle.
+        plt.axis('equal')
+        fig.savefig(location1, dpi=100)
+
+        from collections import Counter
+        x=[]
+        y=[]
+        for i,j in (Counter(df['Organisation']).most_common(20)):
+            if i not in ['REDACTED FOR PRIVACY','Not found in database','None','N/A']:
+                x.append((i[:15]))
+                y.append(j)
+        #print (x,y )
+        import pandas as pd
+        import numpy as np
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+
+        sns.set_style("whitegrid", {"axes.facecolor": ".2"})
+
+        from matplotlib.pyplot import figure
+        import matplotlib.pyplot as plt
+
+        #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
+        fig, ax = plt.subplots(figsize=(20,20), facecolor='w', edgecolor='k')
+
+        plt.bar(x, y,color='#0000ff')
+        plt.xlabel('Most occuring organisations in browsing history', fontsize=32)
+        plt.ylabel('Number of websites of corresponding organisation', fontsize=32)
+        plt.xticks(x, x, fontsize=28, rotation=90)
+        plt.yticks(fontsize=28)
+        plt.title('URLs of various organisations browsed as detected from Chrome Extension',fontsize=32)
+        #fig = plt.figure(1)
+
+        ax = plt.gca()
+        #ax.legend(prop={'size': 40})
+        #legend = plt.legend()
+        #plt.show()
+
+        fig.savefig(location2, dpi=80,bbox_inches='tight')
+
+        from collections import Counter
+        x=[]
+        y=[]
+        for i,j in (Counter(df['Registrar']).most_common(20)):
+            if i not in ['REDACTED FOR PRIVACY','Not found in database','None']:
+                x.append(i[:20])
+                y.append(j)
+        #print (x,y )
+        import pandas as pd
+        import numpy as np
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+
+        sns.set_style("darkgrid", {"axes.facecolor": ".2"})
+
+        from matplotlib.pyplot import figure
+        import matplotlib.pyplot as plt
 
-    from matplotlib.pyplot import figure
-    import matplotlib.pyplot as plt
-
-    #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
-    fig, ax = plt.subplots(figsize=(20,20))
-
-    plt.bar(x, y,color='yellow',edgecolor='black')
-
-
-    plt.xlabel('Most occuring registrars in browsing history', fontsize=32)
-    plt.ylabel('Number of websites of corresponding registrar', fontsize=32)
-    plt.xticks(x, x, fontsize=28, rotation=90)
-    plt.yticks(fontsize=28)
-    plt.title('URLs of various registrars browsed as detected from Chrome Extension',fontsize=32)
-    #fig = plt.figure(1)
-
-    ax = plt.gca()
-    #ax.legend(prop={'size': 40})
-    #legend = plt.legend()
-    #plt.show()
-
-    fig.savefig(location3, dpi=80,bbox_inches='tight')
+        #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
+        fig, ax = plt.subplots(figsize=(20,20))
+
+        plt.bar(x, y,color='yellow',edgecolor='black')
+
+
+        plt.xlabel('Most occuring registrars in browsing history', fontsize=32)
+        plt.ylabel('Number of websites of corresponding registrar', fontsize=32)
+        plt.xticks(x, x, fontsize=28, rotation=90)
+        plt.yticks(fontsize=28)
+        plt.title('URLs of various registrars browsed as detected from Chrome Extension',fontsize=32)
+        #fig = plt.figure(1)
+
+        ax = plt.gca()
+        #ax.legend(prop={'size': 40})
+        #legend = plt.legend()
+        #plt.show()
+
+        fig.savefig(location3, dpi=80,bbox_inches='tight')
+
+        from collections import Counter
+        x=[]
+        y=[]
+        for i,j in (Counter(df['Country'].str.upper()).most_common(20)):
+            if i not in ['REDACTED FOR PRIVACY','Not found in database','None','NONE','NOT FOUND IN DATABASE']:
+                x.append(i)
+                y.append(j)
+        import pandas as pd
+        import numpy as np
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+
+        sns.set_style("darkgrid", {"axes.facecolor": ".2"})
+
+        from matplotlib.pyplot import figure
+        import matplotlib.pyplot as plt
+
+        #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
+        fig, ax = plt.subplots(figsize=(20,20))
 
-    from collections import Counter
-    x=[]
-    y=[]
-    for i,j in (Counter(df['Country']).most_common(20)):
-        if i not in ['REDACTED FOR PRIVACY','Not found in database','None']:
-            x.append(i)
-            y.append(j)
-    import pandas as pd
-    import numpy as np
-    import seaborn as sns
-    import matplotlib.pyplot as plt
-
-    sns.set_style("darkgrid", {"axes.facecolor": ".2"})
-
-    from matplotlib.pyplot import figure
-    import matplotlib.pyplot as plt
-
-    #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
-    fig, ax = plt.subplots(figsize=(20,20))
-
-    plt.bar(x, y,color='#0099ff',edgecolor='black')
-
-
-    plt.xlabel('Most occuring country in browsing history', fontsize=32)
-    plt.ylabel('Number of websites of corresponding country', fontsize=32)
-    plt.xticks(x, x, fontsize=28, rotation=90)
-    plt.yticks(fontsize=28)
-    plt.title('URLs of various country browsed as detected from Chrome Extension',fontsize=32)
-    #fig = plt.figure(1)
-
-    ax = plt.gca()
-    #ax.legend(prop={'size': 40})
-    #legend = plt.legend()
-    #plt.show()
-
-    fig.savefig(location4, dpi=80,bbox_inches='tight')
-
-    dmf=df[df['Status']=="Malicious"]
-    from collections import Counter
-    x=[]
-    y=[]
-    for i,j in (Counter(dmf['Country']).most_common(20)):
-        if i not in ['REDACTED FOR PRIVACY','Not found in database','None']:
-            x.append(i)
-            y.append(j)
-    import pandas as pd
-    import numpy as np
-    import seaborn as sns
-    import matplotlib.pyplot as plt
+        plt.bar(x, y,color='#0099ff',edgecolor='black')
 
-    sns.set_style("darkgrid", {"axes.facecolor": ".2"})
 
-    from matplotlib.pyplot import figure
-    import matplotlib.pyplot as plt
+        plt.xlabel('Most occuring country in browsing history', fontsize=32)
+        plt.ylabel('Number of websites of corresponding country', fontsize=32)
+        plt.xticks(x, x, fontsize=28, rotation=90)
+        plt.yticks(fontsize=28)
+        plt.title('URLs of various country browsed as detected from Chrome Extension',fontsize=32)
+        #fig = plt.figure(1)
 
-    #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
-    fig, ax = plt.subplots(figsize=(20,20))
+        ax = plt.gca()
+        #ax.legend(prop={'size': 40})
+        #legend = plt.legend()
+        #plt.show()
 
-    plt.bar(x, y,color='red',edgecolor='black')
+        fig.savefig(location4, dpi=80,bbox_inches='tight')
 
+        dmf=df[df['Status']=="Malicious"]
+        nm=len(dmf)
+        from collections import Counter
+        x=[]
+        y=[]
+        for i,j in (Counter(dmf['Country'].str.upper()).most_common(20)):
+            if i not in  ['REDACTED FOR PRIVACY','Not found in database','None','NONE','NOT FOUND IN DATABASE','REDACTED'] and len(i)<=2:
+                x.append(i)
+                y.append(j)
+        import pandas as pd
+        import numpy as np
+        import seaborn as sns
+        import matplotlib.pyplot as plt
 
-    plt.xlabel('Most occuring country in browsing history (Malicious Website)', fontsize=32)
-    plt.ylabel('Number of Malicious websites of corresponding country', fontsize=32)
-    plt.xticks(x, x, fontsize=28, rotation=90)
-    plt.yticks(fontsize=28)
-    plt.title('Malicious URLs of various country browsed as detected from Chrome Extension',fontsize=32)
-    #fig = plt.figure(1)
+        sns.set_style("darkgrid", {"axes.facecolor": ".2"})
 
-    ax = plt.gca()
-    #ax.legend(prop={'size': 40})
-    #legend = plt.legend()
-    #plt.show()
+        from matplotlib.pyplot import figure
+        import matplotlib.pyplot as plt
 
-    fig.savefig(location5, dpi=80,bbox_inches='tight')
+        #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
+        fig, ax = plt.subplots(figsize=(20,20))
 
-    dlf=df[df['Status']=="Legitimate"]
-    from collections import Counter
-    x=[]
-    y=[]
-    for i,j in (Counter(dlf['Country']).most_common(20)):
-        if i not in ['REDACTED FOR PRIVACY','Not found in database','None']:
-            x.append(i)
-            y.append(j)
-    import pandas as pd
-    import numpy as np
-    import seaborn as sns
-    import matplotlib.pyplot as plt
+        plt.bar(x, y,color='red',edgecolor='black')
 
-    sns.set_style("darkgrid", {"axes.facecolor": ".2"})
 
-    from matplotlib.pyplot import figure
-    import matplotlib.pyplot as plt
+        plt.xlabel('Most occuring country in browsing history (Malicious Website)', fontsize=32)
+        plt.ylabel('Number of Malicious websites of corresponding country', fontsize=32)
+        plt.xticks(x, x, fontsize=28, rotation=90)
+        plt.yticks(fontsize=28)
+        plt.title('Malicious URLs of various country browsed as detected from Chrome Extension',fontsize=32)
+        #fig = plt.figure(1)
+
+        ax = plt.gca()
+        #ax.legend(prop={'size': 40})
+        #legend = plt.legend()
+        #plt.show()
+
+        fig.savefig(location5, dpi=80,bbox_inches='tight')
 
-    #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
-    fig, ax = plt.subplots(figsize=(20,20))
 
-    plt.bar(x, y,color='#ccff33',edgecolor='black')
 
+        from collections import Counter
+        x=[]
+        y=[]
+        for i,j in (Counter(dmf['Registrar']).most_common(20)):
+            if i not in ['REDACTED FOR PRIVACY','Not found in database','None','NONE','NOT FOUND IN DATABASE','REDACTED','Not Found']:
+                x.append(i[:20])
+                y.append(j)
+        #print (x,y )
+        import pandas as pd
+        import numpy as np
+        import seaborn as sns
+        import matplotlib.pyplot as plt
 
-    plt.xlabel('Most occuring country in browsing history (Legitimate Website)', fontsize=32)
-    plt.ylabel('Number of Legitimate websites of corresponding country', fontsize=32)
-    plt.xticks(x, x, fontsize=28, rotation=90)
-    plt.yticks(fontsize=28)
-    plt.title('Legitimate URLs of various country browsed as detected from Chrome Extension',fontsize=32)
-    #fig = plt.figure(1)
+        sns.set_style("darkgrid", {"axes.facecolor": ".2"})
+
+        from matplotlib.pyplot import figure
+        import matplotlib.pyplot as plt
+
+        #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
+        fig, ax = plt.subplots(figsize=(20,20))
+
+        plt.bar(x, y,color='orange',edgecolor='black')
+
+
+        plt.xlabel('Most occuring registrars in Malicious URLs', fontsize=32)
+        plt.ylabel('Number of websites of corresponding registrar', fontsize=32)
+        plt.xticks(x, x, fontsize=28, rotation=90)
+        plt.yticks(fontsize=28)
+        plt.title('URLs of various registrars browsed as detected from Chrome Extension Malicious URLs',fontsize=32)
+        #fig = plt.figure(1)
+
+        ax = plt.gca()
+        #ax.legend(prop={'size': 40})
+        #legend = plt.legend()
+        #plt.show()
+
+        fig.savefig(location8, dpi=80,bbox_inches='tight')
 
-    ax = plt.gca()
-    #ax.legend(prop={'size': 40})
-    #legend = plt.legend()
-    #plt.show()
+
+
+
+
+
+        dlf=df[df['Status']=="Legitimate"]
+        nl=len(dlf)
+        from collections import Counter
+        x=[]
+        y=[]
+        for i,j in (Counter(dlf['Country'].str.upper()).most_common(20)):
+            if i not in ['REDACTED FOR PRIVACY','Not found in database','None','NONE','NOT FOUND IN DATABASE','REDACTED']:
+                x.append(i)
+                y.append(j)
+        import pandas as pd
+        import numpy as np
+        import seaborn as sns
+        import matplotlib.pyplot as plt
 
-    fig.savefig(location6, dpi=80,bbox_inches='tight')
-    from collections import Counter
-    hours=[]
-    for i in df['Time']:
-        hours.append(i[11:13])
-        #print (i[11:13])
-    
-    di=dict(Counter(hours))
-    di=sorted(di.items())
-    
+        sns.set_style("darkgrid", {"axes.facecolor": ".2"})
 
-    x=[]
-    y=[]
-    x, y = zip(*di)
-    fig, ax = plt.subplots(figsize=(20,20))
+        from matplotlib.pyplot import figure
+        import matplotlib.pyplot as plt
 
-    plt.plot(x, y,color='violet', marker='o', linestyle='dashed',linewidth=5, markersize=20,label="Number of URLs browsed")#
+        #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
+        fig, ax = plt.subplots(figsize=(20,20))
 
-    #plt.yticks([50,100,150,200,250,300,350,400,450,500])
-    plt.xlabel('Hours in a day',fontsize=32)
-    plt.ylabel('Number of URLs browsed',fontsize=32)
-    plt.xticks(fontsize=28)
-    plt.yticks(fontsize=28)
-    plt.title("Variation in number of URLs browsed and Hours",fontsize=32)
-    ax = plt.gca()
-    #ax.legend(prop={'size': 20})
+        plt.bar(x, y,color='#ccff33',edgecolor='black')
 
-    #ax.tick_params(axis = 'both', which = 'major', labelsize = 15)  
-    fig.savefig(location7, dpi=80,bbox_inches='tight')
 
+        plt.xlabel('Most occuring country in browsing history (Legitimate Website)', fontsize=32)
+        plt.ylabel('Number of Legitimate websites of corresponding country', fontsize=32)
+        plt.xticks(x, x, fontsize=28, rotation=90)
+        plt.yticks(fontsize=28)
+        plt.title('Legitimate URLs of various country browsed as detected from Chrome Extension',fontsize=32)
+        #fig = plt.figure(1)
 
-            
+        ax = plt.gca()
+        #ax.legend(prop={'size': 40})
+        #legend = plt.legend()
+        #plt.show()
 
+        fig.savefig(location6, dpi=80,bbox_inches='tight')
+        from collections import Counter
+        hours=[]
+        for i in df['Time']:
+            hours.append(i[11:13])
+            #print (i[11:13])
+        
+        di=dict(Counter(hours))
+        di=sorted(di.items())
+        
 
+        x=[]
+        y=[]
+        x, y = zip(*di)
+        fig, ax = plt.subplots(figsize=(20,20))
 
+        plt.plot(x, y,color='violet', marker='o', linestyle='dashed',linewidth=5, markersize=20,label="Number of URLs browsed")#
 
+        #plt.yticks([50,100,150,200,250,300,350,400,450,500])
+        plt.xlabel('Hours in a day',fontsize=32)
+        plt.ylabel('Number of URLs browsed',fontsize=32)
+        plt.xticks(fontsize=28)
+        plt.yticks(fontsize=28)
+        plt.title("Variation in number of URLs browsed and Hours",fontsize=32)
+        ax = plt.gca()
+        #ax.legend(prop={'size': 20})
 
+        #ax.tick_params(axis = 'both', which = 'major', labelsize = 15)  
+        fig.savefig(location7, dpi=80,bbox_inches='tight')
 
 
-    return render(request, 'fetchanalysis.html',{'f2':loc1,'f3':loc2,'f4':loc3,'f5':loc4,'f6':loc5,'f7':loc6,'f8':loc7})
-    
+          
+        from collections import Counter
+        x=[]
+        y=[]
+        for i,j in (Counter(dlf['Registrar']).most_common(20)):
+            if i not in ['REDACTED FOR PRIVACY','Not found in database','None','NONE','NOT FOUND IN DATABASE','REDACTED','Not Found']:
+                x.append(i[:20])
+                y.append(j)
+        #print (x,y )
+        import pandas as pd
+        import numpy as np
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+
+        sns.set_style("darkgrid", {"axes.facecolor": ".2"})
+
+        from matplotlib.pyplot import figure
+        import matplotlib.pyplot as plt
+
+        #figure(num=None, figsize=(12,14), dpi=80, facecolor='w', edgecolor='k')
+        fig, ax = plt.subplots(figsize=(20,20))
+
+        plt.bar(x, y,color='#66ff66',edgecolor='black')
+
+
+        plt.xlabel('Most occuring registrars in Legitimate URLs', fontsize=32)
+        plt.ylabel('Number of websites of corresponding registrar', fontsize=32)
+        plt.xticks(x, x, fontsize=28, rotation=90)
+        plt.yticks(fontsize=28)
+        plt.title('URLs of various registrars browsed as detected from Chrome Extension Legitimate URLs',fontsize=32)
+        #fig = plt.figure(1)
+
+        ax = plt.gca()
+        #ax.legend(prop={'size': 40})
+        #legend = plt.legend()
+        #plt.show()
+
+        fig.savefig(location9, dpi=80,bbox_inches='tight')
+      
+
+
+
+
+
+
+
+        return render(request, 'fetchanalysis.html',{'f2':loc1,'f3':loc2,'f4':loc3,'f5':loc4,'f6':loc5,'f7':loc6,'f8':loc7,'f9':loc8,'nm':nm,'nl':nl,'f10':loc9})
+    except:
+        return render(request,'reload.html')  
+
 
         
 

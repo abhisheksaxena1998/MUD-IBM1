@@ -4,7 +4,7 @@
 </br>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6" style="margin: 1rem auto 0 auto;">
+        <div class="col-md-8" style="margin: 2rem auto 0 auto;">
             {% if mal %}
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>Legitimate Url</strong>
@@ -146,7 +146,14 @@
                     </div>
                 </div>
 
-                
+                <script>
+                    Swal.fire(
+                    'This url looks safe!',
+                    'Go Ahead !',
+                    'success'
+                             )
+                 </script>
+                 
                 {% else %}
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Malicious Url</strong>
@@ -173,7 +180,7 @@
 
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-24" style="margin: 1rem auto 5rem auto;">
+                            <div class="col-md-12" style="margin: 1rem auto 5rem auto;">
                 
                                 <div class="row">
                                     <div class="col-md-6">
@@ -269,6 +276,13 @@
                             <!-- Card -->
                         </div>
                     </div>
+                    <script>
+                    Swal.fire(
+                        'Phishing Detected !',
+      'You are safe :)',
+      'error'
+)
+                    </script>
                     {% endif %}
                 </div>
             </div>
