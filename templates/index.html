@@ -30,7 +30,7 @@ background-attachment: fixed;background-size: cover;"></div>
 </div>
   <!--Navbar-->
   <div class="card" id="card" style="
-    background-color: black;
+  background-color: black;
     height: 100%;
     display: block;
     position: absolute;
@@ -61,10 +61,13 @@ background-attachment: fixed;background-size: cover;"></div>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'geturlhistory' %}">URL History Database</a>
+          <a class="nav-link" href="{% url 'geturlhistory' %}">URL History</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'fetchanalysis' %}">Live Data Analysis</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'sandbox' %}">Sandbox</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'testresults' %}">Test Results</a>
@@ -76,13 +79,19 @@ background-attachment: fixed;background-size: cover;"></div>
           <a class="nav-link" href="{% url 'discuss' %}">Discuss Channel</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'getdataset' %}">Download Dataset (URL History)</a>
+          <a class="nav-link" href="{% url 'getdataset' %}">Dataset(URL History)</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'about' %}">About Application</a>
+          <a class="nav-link" href="{% url 'cloudantcsv' %}">Cloudant Dataset</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% static 'chrome-ext.zip' %}" download>Download Chrome Extension</a>
+          <a class="nav-link" href="{% url 'about' %}">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'casestudy' %}">Cyberfraud CaseStudy</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% static 'chrome-ext.zip' %}" download>Chrome Extension</a>
         </li>
       </ul>
       <!-- Links -->
@@ -116,7 +125,7 @@ background-attachment: fixed;background-size: cover;"></div>
                     <!--Mask with wave-->
                     <div class="view overlay">
                         <img src="/static/1.png" class="img-fluid" alt="Sample image with waves effect." style="margin: 0 auto;
-            margin-top: 60px;height: 20rem;animation: cubic-bezier;animation-duration: 0.9s;animation-delay: 1500ms;">
+            margin-top: 60px;height: 20rem;">
                     
                     </div>
                 </div>
@@ -126,7 +135,7 @@ background-attachment: fixed;background-size: cover;"></div>
           
         
           <div class="container">
-            <input type="text" name="url" class="form-control form-control-lg" name="url" placeholder="Enter Suspected Url in valid format like 'https://www.google.com' " style="border: groove;" required>
+            <input type="text" name="url" class="form-control form-control-lg" name="url" placeholder="Enter suspected URL in valid format like 'https://www.google.com' " style="border: groove;" required>
           </div>
 
             </div>
@@ -163,7 +172,7 @@ background-attachment: fixed;background-size: cover;"></div>
         <!-- Copyright -->
         <div class="footer-copyright text-center py-3"
           style="background: black;color: white;font-weight:bold;font-size:0.5rem;">
-          <span>© 2020 Copyright: <a href="https://abhisheksportfolio.herokuapp.com/">Abhishek Saxena&nbsp;&nbsp;
+          <span>© 2020 Copyright: JIIT Noida_PyDjango&nbsp;&nbsp;
             <a class="ins-ic" href="https://github.com/abhisheksaxena1998"><i class="fab fa-github  fa-3x"></i></a></span>
             
         </div>
@@ -188,7 +197,7 @@ background-attachment: fixed;background-size: cover;"></div>
       <script type="text/javascript">
         $(document).ready(function () {
             //Preloader
-            preloaderFadeOutTime = 1200;
+            preloaderFadeOutTime = 1250;
             function hidePreloader() {
                 var preloader1 = $('.spinner-border');
                 var preloader2 = $('#card');

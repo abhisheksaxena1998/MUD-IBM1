@@ -3,7 +3,12 @@ from . import views
 
 urlpatterns = [
     path('',views.index,name='index'),
+    path('casestudy',views.casestudy,name='casestudy'),
     path('getuserfeedbackform',views.getuserfeedbackform,name="getuserfeedbackform"),
+    path('test',views.test,name="test"),
+    path('sandbox',views.sandbox,name="sandbox"),
+    path('sandboxresult',views.sandboxresult,name="sandboxresult"),
+    path('cloudantcsv',views.cloudantcsv,name="cloudantcsv"),
     path('saveuserfeedbackform',views.saveuserfeedbackform,name="saveuserfeedbackform"),
     path('api',views.api,name='api'),
     path('testresults',views.testresults,name='testresults'),

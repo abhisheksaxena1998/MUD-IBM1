@@ -11,6 +11,139 @@ from .models import *
 
 # Create your views here.
 
+
+def test(request):
+    return render(request,'test.html')
+
+def sandbox(request):
+    return render(request,'sandbox.html') 
+
+def casestudy(request):
+    return render(request,'casestudy.html')
+
+def sandboxresult(request):
+    try:
+        import requests
+        from bs4 import BeautifulSoup
+        text=request.GET['url'].lower().strip()
+
+        response = requests.get(text)
+        soup = BeautifulSoup(response.content, "html.parser")
+
+        for s in soup.select('script'):
+            s.extract()
+        html =soup.contents
+        html =soup.prettify("utf-8")
+        with open("templates/test.html", "wb") as file:
+            file.write(html)
+
+        #page description
+        def get_description(html):
+            description = None
+            if html.find("meta", property="description"):
+                description = html.find("meta", property="description").get('content')
+            elif html.find("meta", property="og:description"):
+                description = html.find("meta", property="og:description").get('content')
+            elif html.find("meta", property="twitter:description"):
+                description = html.find("meta", property="twitter:description").get('content')
+            elif html.find("p"):
+                description = html.find("p").contents
+            return description
+
+        #page title
+        def get_title(html):
+            title = None
+            if html.title.string:
+                title = html.title.string
+            elif html.find("meta", property="og:title"):
+                title = html.find("meta", property="og:title").get('content')
+            elif html.find("meta", property="twitter:title"):
+                title = html.find("meta", property="twitter:title").get('content')
+            elif html.find("h1"):
+                title = html.find("h1").string
+            return title
+
+        #website name
+        def get_site_name(html, url):
+            if html.find("meta", property="og:site_name"):
+                site_name = html.find("meta", property="og:site_name").get('content')
+            elif html.find("meta", property='twitter:title'):
+                site_name = html.find("meta", property="twitter:title").get('content')
+            else:
+                site_name = url.split('//')[1]
+                return site_name.split('/')[0].rsplit('.')[1].capitalize()
+            return site_name
+
+        #found Privacy Policy
+        def get_privacypolicy(html):
+            if(html.find('Privacy Policy')!=-1) or (html.find('Privacy policy')!=-1) :
+                return True
+            else:
+                return False
+
+        #found TOS
+        def get_TermsOfService(html):
+            if(html.find('Terms of Service')!=-1) or (html.find('Terms of service')!=-1) or (html.find('Terms Of Service')!=-1) or (html.find('Service Terms')!=-1):
+                return True
+            else:
+                return False
+
+        #Found copyright
+        def get_Copyright(html):
+            if(html.find('Copyright Policy')!=-1) or (html.find('Copyright policy')!=-1):
+                return True
+            else:
+                return False
+
+
+
+        try:
+            response = requests.get(text)
+            html = BeautifulSoup(response.content, "html.parser")
+        except:
+            print ("Details not found")    
+
+        #get_allDetails(html,text)    
+
+        try:
+            websitename=get_site_name(html,text)
+        except:
+            websitename="Can't determine"    
+        try:
+            pagetitle=get_title(html)
+        except:
+            pagetitle="Can't determine"  
+        try:      
+            websitedescription=get_description(html)
+        except:
+            websitedescription="Can't determine"    
+        try:    
+            foundprivacypolicy=get_privacypolicy(html)
+        except:
+            foundprivacypolicy="Can't determine" 
+        try:       
+            foundtermsofservices=get_TermsOfService(html)
+        except:
+            foundtermsofservices="Can't determine"    
+        try:    
+            foundcopyright=get_Copyright(html)
+        except:
+            foundcopyright="Can't determine"    
+        
+
+        return render(request,'sandboxresult.html',{'pagetitle':pagetitle,'websitename':websitename,'websitedescription':websitedescription,'foundprivacypolicy':foundprivacypolicy,'foundtermsofservices':foundtermsofservices,'foundcopyright':foundcopyright,'text':text}) 
+    except:
+        return render(request,'sandboxerror.html')
+
+
+def cloudantcsv(request):
+    try:
+        from myapp.display import html
+        return HttpResponse(html())
+    except:
+        return render(request,'reload.html') 
+
+
 def error_404_view(request, exception):
     return render(request,'404.html')
 
@@ -62,7 +195,34 @@ import datetime
 
 def result(request):
     text=request.GET['url'].lower().strip()
+
+    import requests
+    from lxml import etree
     try:
+        temporary=requests.get(text).status_code
+    except:
+        temporary=404    
+    if temporary==200:
+        online_stat="Website is currently ONLINE" 
+        try:
+            from StringIO import StringIO
+        except:
+            from io import StringIO   
+
+        parser=etree.HTMLParser()
+        html=requests.get(text).text
+        tree=etree.parse(StringIO(html),parser)
+        title=tree.xpath("//title/text()")
+        tittle=title
+
+
+    else:
+        online_stat="Website is currently OFFLINE or temporarily overloaded"    
+        tittle="Not determined as URL is OFFLINE or temporarily overloaded"
+
+    #print (online_stat,tittle)    
+    try:
+    
         #nm=request.GET['url']
         import tldextract
         do=tldextract.extract(text).domain
@@ -150,13 +310,13 @@ def result(request):
                 #code replaced whois
                 # 
                 """try:"""
-                d=-1
+                d=0
                 try:
                     res=whois.whois(url)
                     cpyres=res
                 except:
                     print("getaddrerrror DNE")
-                    d=0
+                    d=-1
                     name="Not found in WHOIS database"
                     org="Not found in WHOIS database"
                     add="Not found in WHOIS database"
@@ -167,7 +327,7 @@ def result(request):
                     emails="Not found in WHOIS database"
                     dom="Not Found in WHOIS database"
                     registrar="Not Found in WHOIS database"
-                if d!=0:    
+                if d!=-1:    
                     try:
                         if len(res.creation_date)>1:
                             a=res['creation_date'][0]
@@ -240,13 +400,16 @@ def result(request):
                 loaded_model = joblib.load(filename)
 
                 arg=loaded_model.predict(([[oneval,secval,thirdval,fourthval,fifthval,seventhval,eighthval,ninthval,tenthval,eleventhval,twelthval,thirt]]))
+                array_score=[oneval,secval,thirdval,fourthval,fifthval,seventhval,eighthval,ninthval,tenthval,eleventhval,twelthval,thirt]
+            
+                safety_scores=((array_score.count(1)/11)*100)
+                safety_score=str(safety_scores) + " %"
                 #print (arg[0])
                 import whois
                 url=text
-                
                 #print (res)
                 #res=whois.whois(url)
-                if (d!=0):
+                if (d!=-1):
                     name=res.domain_name
                     #print (res.domain_name)
                     org=res.org
@@ -347,9 +510,11 @@ def result(request):
                 print (ipcountry)
                 print (iplatitude)
                 print (iplongitude)
-'''
+    '''
 
-
+                if text.startswith('https://mudvfinalradar.eu-gb.cf.appdomain.cloud/'):
+                    mal=True
+                    te="Legitimate"
 
                 obj = Url()
                 obj.result = te 
@@ -400,7 +565,7 @@ def result(request):
                 if emails!=None:
                     emails="".join(emails)
                 if org!=None:    
-                    org=org.replace(",","")
+                    org=str(org).replace(",","")
                 #print (org)
                 '''print (dom)'''
                 dom="".join(dom)
@@ -411,10 +576,18 @@ def result(request):
                 #print (emails)
                 #print(city)
                 import datetime
+
+                if text.startswith('https://mudvfinalradar.eu-gb.cf.appdomain.cloud/'):
+                    mal=True
+                    te="Legitimate"
+            
+
+
+
                 import csv
                 with open ('static//dataset.csv','a',encoding="utf-8") as res:        
                     writer=csv.writer(res)           
-                    s="{},{},{},{},{},{},{},{},{},{},{},{},{},{}\n".format(text,te,str(name),
+                    s="{},{},{},{},{},{},{},{},{},{},{},{},{}\n".format(te,str(name).replace(",",''),
                         str(org).replace(",",''),
                         str(add).replace(",",''),
                         str(city).replace(",",''),
@@ -422,16 +595,88 @@ def result(request):
                         str(ziip).replace(",",''),
                         str(country).replace(",",''),str(emails).replace(",",''),
                         str(dom).replace(",",''),rank,str(registrar).replace(",",''),str(datetime.datetime.now()))
-                    res.write(s)      
+                    res.write(s)
+
+
+                url_organisations=str(org).replace(",",'')
+                #print(url_organisations)
+                url_address=str(add).replace(",",'')
+                #print(url_address)
+                url_city=str(city).replace(",",'')
+                #print(url_city)
+                url_state=str(state).replace(",",'')
+                #print(url_state)
+                url_zip=str(ziip).replace(",",'')
+                #print(url_zip)
+                url_country=str(country).replace(",",'')
+                #print(url_country)
+                url_email=str(emails).replace(",",'')
+                #print(url_email)
+                url_domain=str(dom).replace(",",'')
+                #print(url_domain)
+                    #rank
+                #print(rank)
+                url_registrar=str(registrar).replace(",",'')
+                #print(url_registrar)
+                date=str(datetime.datetime.now())
+                #print(date)
+                    
+
+                    ##cloudant
+                    #using both Authentication method "IBM Cloud Identity and Access Management (IAM)"
+                from cloudant.client import Cloudant
+                from cloudant.error import CloudantException
+                from cloudant.result import Result, ResultByKey
+                    
+                    #build connection using cloudant username,password and url
+                    #----------connection details------------#
+                    #username="5e42a7d0-ea17-4a3a-bbbf-2cd472931bd0-bluemix"
+                    #password="efe6af61c9872c02b29eb078f9ac872e5fcf41afaa1333bdef1f8ff88d9de508"
+                    #url="https://5e42a7d0-ea17-4a3a-bbbf-2cd472931bd0-bluemix:efe6af61c9872c02b29eb078f9ac872e5fcf41afaa1333bdef1f8ff88d9de508@5e42a7d0-ea17-4a3a-bbbf-2cd472931bd0-bluemix.cloudantnosqldb.appdomain.cloud"
+                client = Cloudant("6656429c-2491-40a6-b026-31dd597c43de-bluemix", "3847820cff823b729fdc0863eeac335529dc19ccab353aa401f6de6b57c38e57", url="https://6656429c-2491-40a6-b026-31dd597c43de-bluemix:3847820cff823b729fdc0863eeac335529dc19ccab353aa401f6de6b57c38e57@6656429c-2491-40a6-b026-31dd597c43de-bluemix.cloudantnosqldb.appdomain.cloud")
+
+                client.connect()
+                    #created database name "URL"
+                database_name = "url_history"
+                my_database = client.create_database(database_name)
+                    #check connection between cloudant and application
+                if my_database.exists():
+                    print(f"'{database_name}' successfully created.")
+                else:
+                    print("connection failed")
+
+                    #store data in json and push to cloudant
+                import json
+                json_document = {
+                    "URL": str(text),
+                    "Property": str(te),
+                    "Name": str(name),
+                    "Organisation": str(url_organisations),
+                    "Address": str(url_address),
+                    "City": str(url_city),
+                    "State": str(url_state),
+                    "Zipcode": str(url_zip),
+                    "Country": str(url_country),
+                    "Domain": str(url_domain),
+                    "Alexa Rank": str(rank),
+                    "Registrar": str(url_registrar),
+                    "E-mails": str(url_email),
+                    "time": str(date)}
+                    
+                new_document = my_database.create_document(json_document)
+                ##csv read                
+                
+                if text.startswith('https://mudvfinalradar.eu-gb.cf.appdomain.cloud/'):
+                    mal=True
             
-                return render(request,'result.html',{'result':'Real-time analysis successfull','f2':te,'mal': mal,'text':text,'name':nm,
+                return render(request,'result.html',{'result':'Real-time analysis successfull','f2':te,'safety_score':safety_score,'safety_scores':safety_scores,'mal': mal,'text':text,'name':nm,
                         'org':oor,
                         'add':add,
                         'city':city,
                         'state':state,
                         'ziip':ziip,
                         'country':country,'emails':em,
-                        'dom':d,'rank':rank,'registrar':registrar,"tags":tags,"var13":var13,"varab":varab,"var11":var11,"var10":var10,"var5":var5,"var4":var4,"var3":var3,"ipadd":ipadd,'ipcity':ipcity,'ipstate':ipstate,'ipcountry':ipcountry,'iplatitude':iplatitude,'iplongitude':iplongitude})
+                        'dom':d,'rank':rank,'registrar':registrar,"tags":tags,"var13":var13,"varab":varab,"var11":var11,"var10":var10,"var5":var5,"var4":var4,"var3":var3,"ipadd":ipadd,'ipcity':ipcity,'ipstate':ipstate,'ipcountry':ipcountry,'iplatitude':iplatitude,'iplongitude':iplongitude,'online_stat':online_stat,'tittle':tittle})
 
 
 
@@ -455,6 +700,16 @@ def api(request):
     try:
         
         import datetime
+
+        if text.startswith('https://mudvfinalradar.eu-gb.cf.appdomain.cloud/'):
+            import datetime
+            mydict = {
+                "query" : text,
+                "malware" : False,
+                "datetime" : str(datetime.datetime.now())
+            }
+            response = JsonResponse(mydict)
+            return response   
 
         if text.startswith('https://www.google.com/search?q='):
             import datetime
@@ -534,12 +789,12 @@ def api(request):
 
                 url=text
 
-                d=-1
+                d=0
                 try:
                     res=whois.whois(url)
                 except:
                     #print("getaddrerrror DNE")
-                    d=0
+                    d=-1
                     name="Not found in database"
                     org="Not found in database"
                     add="Not found in database"
@@ -549,7 +804,7 @@ def api(request):
                     country="Not found in database"
                     emails="Not found in database"
                     dom="Not Found"
-                if d!=0:    
+                if d!=-1:    
                     try:
                         if len(res.creation_date)>1:
                             a=res['creation_date'][0]
@@ -621,7 +876,7 @@ def api(request):
                 url=text
                 
                 #print (res)
-                if (d!=0):
+                if (d!=-1):
                     name=res.domain_name
                     #print (res.domain_name)
                     org=res.org
@@ -1000,7 +1255,8 @@ def fetchanalysis(request):
         from collections import Counter
         hours=[]
         for i in df['Time']:
-            hours.append(i[11:13])
+            if i[11:13] != "":
+                hours.append(i[11:13])
             #print (i[11:13])
         
         di=dict(Counter(hours))
@@ -1011,7 +1267,6 @@ def fetchanalysis(request):
         y=[]
         x, y = zip(*di)
         fig, ax = plt.subplots(figsize=(20,20))
-
         plt.plot(x, y,color='violet', marker='o', linestyle='dashed',linewidth=5, markersize=20,label="Number of URLs browsed")#
 
         #plt.yticks([50,100,150,200,250,300,350,400,450,500])
@@ -1169,8 +1424,7 @@ def searchdiscuss(request):
         return render(request,'404.html')
 
 def getdataset(request):
-    try:
-        return render(request,'getdataset.html')
-    except:
-        return render(request,'404.html')
-			
+    
+
+    return render(request,'getdataset.html')
+    		
