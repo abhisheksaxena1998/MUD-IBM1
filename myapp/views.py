@@ -512,7 +512,7 @@ def result(request):
                 print (iplongitude)
     '''
 
-                if text.startswith('https://mudvfinalradar.eu-gb.cf.appdomain.cloud/'):
+                if text.startswith('https://hrix.eu-gb.cf.appdomain.cloud/'):
                     mal=True
                     te="Legitimate"
 
@@ -577,7 +577,7 @@ def result(request):
                 #print(city)
                 import datetime
 
-                if text.startswith('https://mudvfinalradar.eu-gb.cf.appdomain.cloud/'):
+                if text.startswith('https://hrix.eu-gb.cf.appdomain.cloud/'):
                     mal=True
                     te="Legitimate"
             
@@ -666,7 +666,7 @@ def result(request):
                 new_document = my_database.create_document(json_document)
                 ##csv read                
                 
-                if text.startswith('https://mudvfinalradar.eu-gb.cf.appdomain.cloud/'):
+                if text.startswith('https://hrix.eu-gb.cf.appdomain.cloud/'):
                     mal=True
             
                 return render(request,'result.html',{'result':'Real-time analysis successfull','f2':te,'safety_score':safety_score,'safety_scores':safety_scores,'mal': mal,'text':text,'name':nm,
@@ -701,7 +701,7 @@ def api(request):
         
         import datetime
 
-        if text.startswith('https://mudvfinalradar.eu-gb.cf.appdomain.cloud/'):
+        if text.startswith('https://hrix.eu-gb.cf.appdomain.cloud/'):
             import datetime
             mydict = {
                 "query" : text,

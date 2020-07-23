@@ -73,37 +73,37 @@ def html():
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://mudvfinalradar.eu-gb.cf.appdomain.cloud/geturlhistory">URL History</a>
+          <a class="nav-link" href="https://hrix.eu-gb.cf.appdomain.cloud/geturlhistory">URL History</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://mudvfinalradar.eu-gb.cf.appdomain.cloud/fetchanalysis">Live Data Analysis</a>
+          <a class="nav-link" href="https://hrix.eu-gb.cf.appdomain.cloud/fetchanalysis">Live Data Analysis</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://mudvfinalradar.eu-gb.cf.appdomain.cloud/sandbox">Sandbox</a>
+          <a class="nav-link" href="https://hrix.eu-gb.cf.appdomain.cloud/sandbox">Sandbox</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://mudvfinalradar.eu-gb.cf.appdomain.cloud/testresults">Test Results</a>
+          <a class="nav-link" href="https://hrix.eu-gb.cf.appdomain.cloud/testresults">Test Results</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://mudvfinalradar.eu-gb.cf.appdomain.cloud/getuserfeedbackform">User FeedBack</a>
+          <a class="nav-link" href="https://hrix.eu-gb.cf.appdomain.cloud/getuserfeedbackform">User FeedBack</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://mudvfinalradar.eu-gb.cf.appdomain.cloud/discuss">Discuss Channel</a>
+          <a class="nav-link" href="https://hrix.eu-gb.cf.appdomain.cloud/discuss">Discuss Channel</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://mudvfinalradar.eu-gb.cf.appdomain.cloud/getdataset">Dataset(URL History)</a>
+          <a class="nav-link" href="https://hrix.eu-gb.cf.appdomain.cloud/getdataset">Dataset(URL History)</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://mudvfinalradar.eu-gb.cf.appdomain.cloud/cloudantcsv">Cloudant Dataset</a>
+          <a class="nav-link" href="https://hrix.eu-gb.cf.appdomain.cloud/cloudantcsv">Cloudant Dataset</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://mudvfinalradar.eu-gb.cf.appdomain.cloud/about">About</a>
+          <a class="nav-link" href="https://hrix.eu-gb.cf.appdomain.cloud/about">About</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://mudvfinalradar.eu-gb.cf.appdomain.cloud/casestudy">Cyberfraud CaseStudy</a>
+          <a class="nav-link" href="https://hrix.eu-gb.cf.appdomain.cloud/casestudy">Cyberfraud CaseStudy</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://mudvfinalradar.eu-gb.cf.appdomain.cloud/static/chrome-ext.zip" download>Chrome Extension</a>
+          <a class="nav-link" href="https://hrix.eu-gb.cf.appdomain.cloud/static/chrome-ext.zip" download>Chrome Extension</a>
         </li>
       </ul>
       <!-- Links -->
